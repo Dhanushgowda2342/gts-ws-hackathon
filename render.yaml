@@ -11,7 +11,7 @@ services:
       gunicorn gts_ws_project.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12
+        value: 3.12.3
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DEBUG
