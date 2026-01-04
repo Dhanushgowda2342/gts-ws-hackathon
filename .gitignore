@@ -3,11 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
-. Python
+.Python
 venv/
-. venv/
+.venv/
 env/
 ENV/
+bin/
+include/
+lib/
+lib64/
+pyvenv.cfg
 
 # Django
 *.log
@@ -22,9 +27,9 @@ db.sqlite3-journal
 
 # IDE
 .vscode/
-. idea/
+.idea/
 *.swp
-*. swo
+*.swo
 
 # OS
 .DS_Store

@@ -1,0 +1,9 @@
+route_name,status,freight_cost_index
+China-US West Coast,Normal,100.0
+China-US East Coast,Normal,105.0
+Europe-US East Coast,Normal,95.0
+Asia-Europe (Suez),Normal,100.0
+Asia-Europe (Cape),Disrupted,150.0
+Panama Canal,Disrupted,145.0
+Trans-Pacific,Normal,98.0
+Red Sea Route,Blocked,200.0

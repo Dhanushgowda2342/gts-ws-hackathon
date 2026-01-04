@@ -1,0 +1,11 @@
+country_from,country_to,sector,tariff_rate,effective_date
+China,USA,Electronics,45.0,2026-01-15
+China,USA,Automotive,25.0,2026-01-15
+China,USA,Steel,25.0,2026-01-10
+Mexico,USA,Automotive,20.0,2026-01-20
+Mexico,USA,Agriculture,15.0,2026-01-20
+Canada,USA,Lumber,18.0,2026-01-12
+Vietnam,USA,Textiles,30.0,2026-01-18
+India,USA,Pharmaceuticals,10.0,2026-01-25
+Germany,USA,Machinery,12.0,2026-01-22
+South Korea,USA,Electronics,20.0,2026-01-16

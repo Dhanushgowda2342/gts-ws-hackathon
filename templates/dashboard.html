@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTS-WS | Global Trade Intelligence</title>
+    <script src="https://public.tableau.com/javascripts/api/tableau-2.9.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f1419;
+            color: #fff;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1f2e 0%, #2a2f3e 100%);
+            padding: 30px 40px;
+            border-bottom: 2px solid #1d9bf0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .header p {
+            color: #8899a6;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px rgba(0,255,0,0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: calc(100vh - 100px);
+            gap: 0;
+        }
+        
+        .sidebar {
+            background: #1a1f2e;
+            border-right: 1px solid #2a2f3e;
+            padding: 25px 20px;
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #8899a6;
+            margin-bottom: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: #2a2f3e;
+            border-left-color: #1d9bf0;
+            transform: translateX(4px);
+        }
+        
+        .nav-item.active {
+            background: #1d9bf0;
+            color: #fff;
+            border-left-color: #1d9bf0;
+            font-weight: 600;
+        }
+        
+        .main {
+            padding: 25px;
+            overflow-y: auto;
+            background: #0f1419;
+        }
+        
+        .ai-summary {
+            background: #1a1f2e;
+            border: 1px solid #2a2f3e;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .ai-summary h2 {
+            margin-top: 0;
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1d9bf0;
+        }
+        
+        .ai-summary p {
+            line-height: 1.6;
+            color: #cbd5e0;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .ai-summary p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .dashboard-container {
+            background: #1a1f2e;
+            border: 1px solid #2a2f3e;
+            border-radius: 12px;
+            padding: 0;
+            height: 800px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        #tableauViz {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #8899a6;
+            font-size: 14px;
+        }
+        
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .kpi-card {
+            background: #1a1f2e;
+            border: 1px solid #2a2f3e;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .kpi-label {
+            font-size: 12px;
+            color: #8899a6;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1d9bf0;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1f2e;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #2a2f3e;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a3f4e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌍 GTS-WS | Global Trade & Supply Warning System</h1>
+        <p><span class="pulse"></span> Live Intelligence Platform | Powered by Tableau Next + AI</p>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <h3>Navigation</h3>
+            <div class="nav-item active">🌍 Global Overview</div>
+            <div class="nav-item">💰 Tariff Analysis</div>
+            <div class="nav-item">🚢 Logistics Monitor</div>
+            <div class="nav-item">📈 Market Impact</div>
+            
+            <h3 style="margin-top: 30px;">Data</h3>
+            <div class="nav-item">📊 Refresh Data</div>
+            <div class="nav-item">🔔 Alerts</div>
+            
+            <h3 style="margin-top: 30px;">Info</h3>
+            <div class="nav-item">❓ Help</div>
+            <div class="nav-item">⚙️ Settings</div>
+        </div>
+        
+        <div class="main">
+            <div class="ai-summary">
+                <h2>🤖 AI Executive Summary</h2>
+                <div id="ai-content" class="loading">Loading AI analysis...</div>
+            </div>
+            
+            <div class="kpi-row">
+                <div class="kpi-card">
+                    <div class="kpi-label">Avg Global Tariff</div>
+                    <div class="kpi-value" id="kpi-tariff">-</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Routes Disrupted</div>
+                    <div class="kpi-value" id="kpi-disrupted">-</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Market Sectors Down</div>
+                    <div class="kpi-value" id="kpi-decline">-</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-container">
+                <div id="tableauViz" class="loading">
+                    Loading Tableau Dashboard...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load AI Summary
+        fetch('/api/executive-summary/')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('ai-content').innerHTML = data.summary;
+            })
+            .catch(err => {
+                document.getElementById('ai-content').innerHTML = 
+                    '⚠️ Unable to load AI summary. Please refresh the page.';
+                console.error('AI Summary Error:', err);
+            });
+        
+        // Load KPI data
+        fetch('/api/kpi-data/')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('kpi-tariff').textContent = data.avg_tariff.toFixed(1) + '%';
+                document.getElementById('kpi-disrupted').textContent = data.disrupted_routes;
+                document.getElementById('kpi-decline').textContent = data.declining_sectors;
+            })
+            .catch(err => console.error('KPI Error:', err));
+        
+        // Embed Tableau Dashboard using URL from settings (via context)
+        const dashboardUrl = "{{ dashboard_url|default:''|escapejs }}";
+
+        if (!dashboardUrl) {
+            document.getElementById('tableauViz').innerHTML =
+                '⚠️ Tableau dashboard URL is not configured. Set TABLEAU_DASHBOARD_URL in .env and reload.';
+        } else {
+            new tableau.Viz(
+                document.getElementById('tableauViz'),
+                dashboardUrl,
+                {
+                    width: '100%',
+                    height: '100%',
+                    hideTabs: true,
+                    hideToolbar: false,
+                    onFirstInteractive: function() {
+                        console.log('✅ Tableau dashboard loaded');
+                    }
+                }
+            );
+        }
+        
+        // Simple nav interactivity
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
